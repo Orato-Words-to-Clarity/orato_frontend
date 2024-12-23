@@ -1,0 +1,5 @@
+# Add your pre-commit commands here
+npm run build
+npm run lint:fix
+npm run lint
+npm run format
