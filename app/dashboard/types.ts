@@ -5,3 +5,8 @@ export type File = {
   language: string;
   status: string;
 };
+
+export type RecordingModalProps = {
+  isOpen: boolean;
+  handleClose: () => void;
+};
