@@ -21,7 +21,7 @@ export default function Header() {
           </Link>
           <nav className={`md:flex space-x-6 hidden`}>
             <Link
-              href='/'
+              href='/login'
               className='font-roboto font-medium text-lg text-gray-600 hover:text-blue-600 hover:underline'
             >
               Login

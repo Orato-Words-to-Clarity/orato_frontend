@@ -2,20 +2,62 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { BeatLoader } from 'react-spinners'; // Import BeatLoader
 
 export default function SignUp() {
-  const [name, setName] = useState('');
+  const [username, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const router = useRouter(); // Initialize router
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle sign-up logic here
-    console.log('Sign-up attempt with:', { name, email, password, confirmPassword });
+    setError(''); // Reset error message
+
+    // Basic validation
+    if (password !== confirmPassword) {
+      setError('Passwords do not match.');
+      return;
+    }
+
+    setLoading(true); // Start loading
+
+    try {
+      const response = await fetch('https://backend-orato.onrender.com/api/v1/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        // Handle server errors
+        setError(data.message || 'Something went wrong. Please try again.');
+      } else {
+        // Registration successful
+        console.log('Registration successful:', data);
+        // Redirect to login or dashboard
+        router.push('/login'); // Adjust the path as needed
+      }
+    } catch (err) {
+      // Handle network errors
+      setError('Network error. Please try again later.');
+      console.error('Error:', err);
+    } finally {
+      setLoading(false); // Stop loading
+    }
   };
 
   return (
@@ -30,7 +72,7 @@ export default function SignUp() {
                 id='name'
                 type='text'
                 placeholder='Enter your name'
-                value={name}
+                value={username}
                 onChange={(e) => setName(e.target.value)}
                 required
               />
@@ -68,10 +110,19 @@ export default function SignUp() {
                 required
               />
             </div>
+            {error && <p className='text-red-500 text-sm mt-2'>{error}</p>}
           </div>
-          <Button type='submit' className='w-full mt-6'>
-            Sign Up
-          </Button>
+          <div className='w-full mt-6'>
+            {loading ? (
+              <div className='flex justify-center'>
+                <BeatLoader color='#1D4ED8' loading={loading} size={10} />
+              </div>
+            ) : (
+              <Button type='submit' className='w-full'>
+                Sign Up
+              </Button>
+            )}
+          </div>
         </form>
         <div className='mt-6 text-center'>
           <p className='text-sm text-gray-600'>
