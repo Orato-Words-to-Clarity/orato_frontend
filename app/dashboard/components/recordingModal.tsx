@@ -7,13 +7,14 @@ import { RecordingModalProps } from '../types';
 import RingLoader from 'react-spinners/RingLoader';
 import BarLoader from 'react-spinners/BarLoader';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { getTranscription } from '@/api/audio';
 
 const RecordingModal: React.FC<RecordingModalProps> = ({ isOpen, handleClose }) => {
   const [includeMicAudio, setIncludeMicAudio] = useState<boolean>(true);
   const [includeSystemAudio, setIncludeSystemAudio] = useState<boolean>(false);
   const [isRecording, setIsRecording] = useState<boolean>(false);
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
-  // eslint-disable-next-line
+
   const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
   const [audioURL, setAudioURL] = useState<string | null>(null);
   const [streams, setStreams] = useState<MediaStream[]>([]);
@@ -134,6 +135,15 @@ const RecordingModal: React.FC<RecordingModalProps> = ({ isOpen, handleClose }) 
     cleanupStreams();
   };
 
+  const handleTranscription = () => {
+    if (audioBlob) {
+      const formData = new FormData();
+      formData.append('file', audioBlob);
+
+      getTranscription(formData);
+    }
+  };
+
   useEffect(() => {
     return cleanup;
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -224,7 +234,10 @@ const RecordingModal: React.FC<RecordingModalProps> = ({ isOpen, handleClose }) 
               <audio controls src={audioURL} className='w-full'></audio>
             </div>
             <div className='flex justify-center space-x-2'>
-              <Button onClick={handleModalClose} className='bg-blue-600 hover:bg-blue-700 w-full'>
+              <Button
+                onClick={handleTranscription}
+                className='bg-blue-600 hover:bg-blue-700 w-full'
+              >
                 Transcribe
               </Button>
               <Button
