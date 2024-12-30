@@ -9,6 +9,7 @@ import MatrixCard from './components/matrixCard';
 import ActionBtn from './components/actionBtn';
 import DashboardTable from './components/dashboardTable';
 import RecordingModal from './components/recordingModal';
+import AudioUploadingModal from './components/audioUploadingModal';
 
 const mockFiles = [
   {
@@ -51,8 +52,10 @@ const mockFiles = [
 export default function Dashboard() {
   const [searchTerm, setSearchTerm] = useState('');
   const [recordingModalOpen, setRecordingModalOpen] = useState(false);
+  const [audioUploadingModalOpen, setAudioUploadingModalOpen] = useState(false);
 
   const hadleRecordingModalClose = () => setRecordingModalOpen(false);
+  const handleAudioUploadingModalClose = () => setAudioUploadingModalOpen(false);
 
   const filteredFiles = mockFiles.filter((file) =>
     file.name.toLowerCase().includes(searchTerm.toLowerCase()),
@@ -61,6 +64,11 @@ export default function Dashboard() {
   return (
     <>
       <RecordingModal isOpen={recordingModalOpen} handleClose={hadleRecordingModalClose} />
+      <AudioUploadingModal
+        isOpen={audioUploadingModalOpen}
+        handleClose={handleAudioUploadingModalClose}
+      />
+
       <div className='min-h-screen bg-gray-100'>
         <DashboardHeader />
         <main className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8'>
@@ -85,7 +93,10 @@ export default function Dashboard() {
             </CardContent>
           </Card>
         </main>
-        <ActionBtn setRecordingModalOpen={setRecordingModalOpen} />
+        <ActionBtn
+          setRecordingModalOpen={setRecordingModalOpen}
+          setAudioUploadingModalOpen={setAudioUploadingModalOpen}
+        />
       </div>
     </>
   );
