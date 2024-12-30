@@ -1,32 +1,37 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation'; // Import useRouter
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { BeatLoader } from 'react-spinners'; // Import loader
+import { BeatLoader } from 'react-spinners';
 
 export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false); // Loading state
-  const router = useRouter(); // Initialize useRouter
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [mounted, setMounted] = useState<boolean>(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true); // Show loader
-
-    // Simulate an API call
+    setIsLoading(true);
     setTimeout(() => {
       console.log('Login attempt with:', { email, password });
-
-      // Redirect to home page after login
       router.push('/');
-      setIsLoading(false); // Hide loader after process
+      setIsLoading(false);
     }, 2000);
   };
+
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <div className='min-h-screen flex items-center justify-center bg-gray-100'>

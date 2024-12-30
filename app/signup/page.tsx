@@ -1,35 +1,37 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { BeatLoader } from 'react-spinners'; // Import BeatLoader
+import { BeatLoader } from 'react-spinners';
 
 export default function SignUp() {
+  const [mounted, setMounted] = useState(false);
   const [username, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
-  const router = useRouter(); // Initialize router
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(''); // Reset error message
+    setError('');
 
-    // Basic validation
     if (password !== confirmPassword) {
       setError('Passwords do not match.');
       return;
     }
 
-    setLoading(true); // Start loading
+    setLoading(true);
 
     try {
       const response = await fetch('https://backend-orato.onrender.com/api/v1/auth/register', {
@@ -43,22 +45,21 @@ export default function SignUp() {
       const data = await response.json();
 
       if (!response.ok) {
-        // Handle server errors
         setError(data.message || 'Something went wrong. Please try again.');
       } else {
-        // Registration successful
-        console.log('Registration successful:', data);
-        // Redirect to login or dashboard
-        router.push('/login'); // Adjust the path as needed
+        router.push('/login');
       }
     } catch (err) {
-      // Handle network errors
       setError('Network error. Please try again later.');
       console.error('Error:', err);
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false);
     }
   };
+
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <div className='min-h-screen flex items-center justify-center bg-gray-100'>
