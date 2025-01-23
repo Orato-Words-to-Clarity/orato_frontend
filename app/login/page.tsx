@@ -1,33 +1,42 @@
 'use client';
-
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { BeatLoader } from 'react-spinners';
+import { authLogin } from '@/api/auth';
+import { CredentialDataType } from '../types';
 
 export default function Login() {
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+  const [credData,setcredData] = useState<CredentialDataType>({
+    email:'',
+    password:'', })
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [mounted, setMounted] = useState<boolean>(false);
-  const router = useRouter();
+  const [error,setError]= useState<string>('');
 
   useEffect(() => {
     setMounted(true);
   }, []);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setTimeout(() => {
-      console.log('Login attempt with:', { email, password });
-      router.push('/');
-      setIsLoading(false);
-    }, 2000);
+  const handleCred = (key: keyof CredentialDataType, value: string) => {
+    setcredData((prevData) => ({
+      ...prevData,
+      [key]: value,
+    }));
   };
+  const handleSubmit = () => {
+    // e.preventDefault();
+       setIsLoading(true);
+    // setTimeout(() => {
+    //   console.log('Login attempt with:', { email, password });
+    //   router.push('/');
+    //   setIsLoading(false);
+    // }, 2000);
+    
+    authLogin(credData,setError,setIsLoading)
+  };
+
 
   if (!mounted) {
     return null;
@@ -37,7 +46,7 @@ export default function Login() {
     <div className='min-h-screen flex items-center justify-center bg-gray-100'>
       <div className='bg-white p-8 rounded-lg shadow-md w-96'>
         <h1 className='text-2xl font-bold text-center mb-6'>Log In to Orato</h1>
-        <form onSubmit={handleSubmit}>
+        {/* <fo> */}
           <div className='space-y-4'>
             <div>
               <Label htmlFor='email'>Email</Label>
@@ -45,8 +54,8 @@ export default function Login() {
                 id='email'
                 type='email'
                 placeholder='Enter your email'
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={credData.email}
+                onChange={(e) => handleCred('email', e.target.value)}
                 required
               />
             </div>
@@ -56,8 +65,8 @@ export default function Login() {
                 id='password'
                 type='password'
                 placeholder='Enter your password'
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={credData.password}
+                onChange={(e) => handleCred('password', e.target.value)}
                 required
               />
             </div>
@@ -68,12 +77,15 @@ export default function Login() {
                 <BeatLoader color='#1D4ED8' loading={isLoading} size={10} />
               </div>
             ) : (
-              <Button type='submit' className='w-full'>
-                Log In
-              </Button>
+              <>
+                {error && <p className='text-red-500 text-sm text-center'>{error}</p>}
+                <Button type='submit' className='w-full' onClick={handleSubmit}>
+                  Log In
+                </Button>
+              </>
             )}
           </div>
-        </form>
+        {/* </form> */}
         <div className='mt-4 text-center'>
           <Link href='/forgot-password' className='text-sm text-blue-600 hover:underline'>
             Forgot Password?
