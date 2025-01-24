@@ -1,7 +1,7 @@
 "use client"
 import { publicGateway } from '@/services/gateways';
 import { orato } from '@/services/urls';
-import { CredentialDataType } from '@/app/types';
+import { CredentialDataType, SignupDataType } from '@/app/types';
 import { Dispatch } from 'react';
 
 
@@ -38,6 +38,27 @@ export const authLogin = async(
     
 }
 
-// export const authSignup = async(signupData : SignupData) =>{
+export const authSignup = async(signupData : SignupDataType,
+    setError : Dispatch<React.SetStateAction<string>>,
+    setLoading : Dispatch<React.SetStateAction<boolean>>
+) =>{
+    console.log('DATA SI')
+   publicGateway
+   .post(orato.signup, signupData)
 
-// }
+   .then((response) => {
+      console.log(response)
+      localStorage.setItem('accessToken', response.data.data.access_token);
+      localStorage.setItem('refreshToken', response.data.data.refresh_token);
+      console.log(response.data.data);
+      window.location.href='/dashboard';
+   })
+   .catch((error) =>{
+    console.log(error);
+    setError(error.response.data.message);
+   })
+   .finally(() =>{
+      setLoading(false);
+   })
+
+}

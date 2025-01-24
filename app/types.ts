@@ -1,8 +1,10 @@
+"use client"
+
 export type CredentialDataType = {
   email: string;
   password: string;
 }
-export type SignupData = {
+export type SignupDataType = {
   username : string;
   email: string;
   password: string;
