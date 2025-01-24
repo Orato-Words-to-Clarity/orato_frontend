@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { BeatLoader } from 'react-spinners';
 import { SignupDataType } from '../types';
-import { authSignup } from '@/api/auth';
+import {  authSignup } from '@/api/auth';
  
 
 export default function SignUp() {
@@ -41,7 +41,7 @@ export default function SignUp() {
 
     setLoading(true);
     authSignup(signData,setError,setLoading)
-
+    
     // try {
     //   const data = await signup(email, username, password);
 

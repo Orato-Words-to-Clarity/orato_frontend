@@ -42,16 +42,23 @@ export const authSignup = async(signupData : SignupDataType,
     setError : Dispatch<React.SetStateAction<string>>,
     setLoading : Dispatch<React.SetStateAction<boolean>>
 ) =>{
-    console.log('DATA SI')
+    
    publicGateway
    .post(orato.signup, signupData)
 
    .then((response) => {
       console.log(response)
-      localStorage.setItem('accessToken', response.data.data.access_token);
-      localStorage.setItem('refreshToken', response.data.data.refresh_token);
-      console.log(response.data.data);
-      window.location.href='/dashboard';
+      const credData = {
+        email: signupData.email,
+        password: signupData.password,
+      };
+  
+      authLogin(credData, setError, setLoading);
+      
+    //   localStorage.setItem('accessToken', response.data.data.access_token);
+    //   localStorage.setItem('refreshToken', response.data.data.refresh_token);
+    //   console.log(response.data.data);
+      
    })
    .catch((error) =>{
     console.log(error);
