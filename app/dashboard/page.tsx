@@ -27,8 +27,10 @@ export default function Dashboard() {
   );
 
   useEffect(() => {
-    getAudioList(setAudioData);
-  }, []);
+    if (!recordingModalOpen && !audioUploadingModalOpen) {
+      getAudioList(setAudioData);
+    }
+  }, [recordingModalOpen, audioUploadingModalOpen]);
 
   useEffect(() => {
     console.log(audioData);

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { orato } from './urls';
+import toast from 'react-hot-toast';
 
 export const publicGateway = axios.create({
   baseURL: process.env.NEXT_PUBLIC_GATEWAY_URL,
@@ -67,6 +68,7 @@ privateGateway.interceptors.response.use(
             });
         });
       } catch (error_2) {
+        toast.error('Your session has expired. Please login again.');
         setTimeout(() => {
           localStorage.clear();
           window.location.href = '/login';

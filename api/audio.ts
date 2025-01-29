@@ -19,3 +19,21 @@ export const getAudioList = async (setAudioData: Dispatch<SetStateAction<AudioDa
       toast.error(error.response.data.message);
     });
 };
+
+export const uploadAudio = async (formData: FormData, handleClose: () => void) => {
+  privateGateway
+    .post(orato.upload, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+    .then((response) => {
+      console.log(response);
+      toast.success(response.data.message);
+      handleClose();
+      window.location.href = `/view/${response.data.data.audio_id}`;
+    })
+    .catch((error) => {
+      toast.error(error.response.data.message);
+    });
+};
