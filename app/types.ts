@@ -1,15 +1,14 @@
-"use client"
+'use client';
 
 export type CredentialDataType = {
   email: string;
   password: string;
-}
+};
 export type SignupDataType = {
-  username : string;
+  username: string;
   email: string;
   password: string;
-}
-
+};
 
 export type ModalProps = {
   children: React.ReactNode;
@@ -19,4 +18,3 @@ export type ModalProps = {
   title?: string;
   zIndexCount?: number;
 };
-

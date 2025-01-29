@@ -10,4 +10,3 @@ export type RecordingModalProps = {
   isOpen: boolean;
   handleClose: () => void;
 };
-

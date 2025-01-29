@@ -26,7 +26,7 @@ export const privateGateway = axios.create({
 
 privateGateway.interceptors.request.use(
   function (config) {
-    const accessToken = localStorage.getItem('accessToken');
+    const accessToken = localStorage.getItem('access_token');
     if (accessToken) {
       config.headers['Authorization'] = `Bearer ${accessToken}`;
     }
@@ -50,12 +50,12 @@ privateGateway.interceptors.response.use(
     if (error.response.status === 401) {
       try {
         const response = await publicGateway.post(orato.refresh, {
-          refresh_token: localStorage.getItem('refresh_token'),
+          refreshToken: localStorage.getItem('refresh_token'),
         });
-        localStorage.setItem('access_token', response.data.accessToken);
-        localStorage.setItem('refresh_token', response.data.refreshToken);
+        localStorage.setItem('access_token', response.data.access_token);
+        localStorage.setItem('refresh_token', response.data.refresh_token);
         const { config } = error;
-        config.headers['Authorization'] = `Bearer ${localStorage.getItem('access_token')}`;
+        config.headers['Authorization'] = `Bearer ${localStorage.getItem('accessToken')}`;
         return await new Promise((resolve, reject) => {
           privateGateway
             .request(config)
