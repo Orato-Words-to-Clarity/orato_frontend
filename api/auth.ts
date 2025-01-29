@@ -1,7 +1,7 @@
 'use client';
 import { publicGateway } from '@/services/gateways';
 import { orato } from '@/services/urls';
-import { CredentialDataType, SignupDataType } from '@/app/types';
+import { CredentialDataType } from '@/app/types';
 import { Dispatch } from 'react';
 
 export const authLogin = async (
@@ -32,7 +32,7 @@ export const authLogin = async (
 };
 
 export const authSignup = async (
-  signupData: SignupDataType,
+  signupData: CredentialDataType,
   setError: Dispatch<React.SetStateAction<string>>,
   setLoading: Dispatch<React.SetStateAction<boolean>>,
 ) => {

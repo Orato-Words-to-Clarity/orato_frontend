@@ -4,11 +4,6 @@ export type CredentialDataType = {
   email: string;
   password: string;
 };
-export type SignupDataType = {
-  username: string;
-  email: string;
-  password: string;
-};
 
 export type ModalProps = {
   children: React.ReactNode;

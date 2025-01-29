@@ -6,12 +6,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { BeatLoader } from 'react-spinners';
-import { SignupDataType } from '../types';
+import { CredentialDataType } from '../types';
 import { authSignup } from '@/api/auth';
 
 export default function SignUp() {
-  const [signData, setsignData] = useState<SignupDataType>({
-    username: '',
+  const [signData, setsignData] = useState<CredentialDataType>({
     email: '',
     password: '',
   });
@@ -23,7 +22,7 @@ export default function SignUp() {
   useEffect(() => {
     setMounted(true);
   }, []);
-  const handleSign = (key: keyof SignupDataType, value: string) => {
+  const handleSign = (key: keyof CredentialDataType, value: string) => {
     setsignData((prevData) => ({
       ...prevData,
       [key]: value,
@@ -63,17 +62,6 @@ export default function SignUp() {
         <h1 className='text-2xl font-bold text-center mb-6'>Sign Up for Orato</h1>
 
         <div className='space-y-4'>
-          <div>
-            <Label htmlFor='name'>Name</Label>
-            <Input
-              id='name'
-              type='text'
-              placeholder='Enter your name'
-              value={signData.username}
-              onChange={(e) => handleSign('username', e.target.value)}
-              required
-            />
-          </div>
           <div>
             <Label htmlFor='email'>Email</Label>
             <Input
