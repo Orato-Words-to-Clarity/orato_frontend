@@ -7,6 +7,7 @@ import { RecordingModalProps } from '../types';
 import RingLoader from 'react-spinners/RingLoader';
 import BarLoader from 'react-spinners/BarLoader';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { uploadAudio } from '@/api/audio';
 
 const RecordingModal: React.FC<RecordingModalProps> = ({ isOpen, handleClose }) => {
   const [includeMicAudio, setIncludeMicAudio] = useState<boolean>(true);
@@ -91,9 +92,9 @@ const RecordingModal: React.FC<RecordingModalProps> = ({ isOpen, handleClose }) 
       };
 
       recorder.onstop = () => {
-        const blob = new Blob(chunks, { type: 'audio/webm;codecs=opus' });
-        setAudioBlob(blob);
-        const url = URL.createObjectURL(blob);
+        const NewRecording = new Blob(chunks, { type: 'audio/webm;codecs=opus' });
+        setAudioBlob(NewRecording);
+        const url = URL.createObjectURL(NewRecording);
         setAudioURL(url);
         cleanupStreams();
       };
@@ -138,8 +139,10 @@ const RecordingModal: React.FC<RecordingModalProps> = ({ isOpen, handleClose }) 
     if (audioBlob) {
       const formData = new FormData();
       formData.append('file', audioBlob);
-
-      // getTranscription(formData);
+      const recordingDateTime = new Date().toISOString().replace(/[:.]/g, '-');
+      const filename = `recording_${recordingDateTime}`;
+      formData.append('file', audioBlob, filename);
+      uploadAudio(formData, handleCancel);
     }
   };
 
