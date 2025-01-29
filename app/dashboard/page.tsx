@@ -7,64 +7,32 @@ import { Input } from '@/components/ui/input';
 import DashboardHeader from './components/dashboardHeader';
 import MatrixCard from './components/matrixCard';
 import ActionBtn from './components/actionBtn';
-import DashboardTable from './components/dashboardTable';
 import RecordingModal from './components/recordingModal';
 import AudioUploadingModal from './components/audioUploadingModal';
 import { getAudioList } from '@/api/audio';
-
-const mockFiles = [
-  {
-    id: '1',
-    name: 'Interview.mp3',
-    uploadDate: '2023-05-15',
-    language: 'English',
-    status: 'Completed',
-  },
-  {
-    id: '2',
-    name: 'Meeting.wav',
-    uploadDate: '2023-05-14',
-    language: 'Spanish',
-    status: 'Pending',
-  },
-  {
-    id: '3',
-    name: 'Lecture.mp4',
-    uploadDate: '2023-05-13',
-    language: 'French',
-    status: 'Completed',
-  },
-  {
-    id: '4',
-    name: 'Podcast.mp3',
-    uploadDate: '2023-05-12',
-    language: 'English',
-    status: 'Completed',
-  },
-  {
-    id: '5',
-    name: 'Conference.wav',
-    uploadDate: '2023-05-11',
-    language: 'German',
-    status: 'Pending',
-  },
-];
+import { AudioDataType } from './types';
+import DashboardTable from './components/dashboardTable';
 
 export default function Dashboard() {
   const [searchTerm, setSearchTerm] = useState('');
   const [recordingModalOpen, setRecordingModalOpen] = useState(false);
   const [audioUploadingModalOpen, setAudioUploadingModalOpen] = useState(false);
+  const [audioData, setAudioData] = useState<AudioDataType[]>([]);
 
   const hadleRecordingModalClose = () => setRecordingModalOpen(false);
   const handleAudioUploadingModalClose = () => setAudioUploadingModalOpen(false);
 
-  const filteredFiles = mockFiles.filter((file) =>
-    file.name.toLowerCase().includes(searchTerm.toLowerCase()),
+  const filteredAudioData = audioData.filter((audio) =>
+    audio.file_name.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   useEffect(() => {
-    getAudioList();
+    getAudioList(setAudioData);
   }, []);
+
+  useEffect(() => {
+    console.log(audioData);
+  }, [audioData]);
 
   return (
     <>
@@ -94,7 +62,7 @@ export default function Dashboard() {
                   className='max-w-sm'
                 />
               </div>
-              <DashboardTable files={filteredFiles} />
+              <DashboardTable audioData={filteredAudioData} />
             </CardContent>
           </Card>
         </main>

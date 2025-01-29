@@ -1,26 +1,18 @@
-import { publicGateway } from '@/services/gateways';
+import { AudioDataType } from '@/app/dashboard/types';
+import { privateGateway } from '@/services/gateways';
 import { orato } from '@/services/urls';
+import { Dispatch, SetStateAction } from 'react';
 
-export const getAudioList = async () => {
+export const getAudioList = async (setAudioData: Dispatch<SetStateAction<AudioDataType[]>>) => {
   privateGateway
     .get(orato.list)
     .then((response) => {
-      console.log(response);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
-
-export const getTranscription = async (formData: FormData) => {
-  publicGateway
-    .post(orato.transciption, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    })
-    .then((response) => {
-      console.log(response);
+      response.data.data.forEach((audio: AudioDataType) => {
+        if (audio.language === null) {
+          audio.language = '-';
+        }
+      });
+      setAudioData(response.data.data);
     })
     .catch((error) => {
       console.log(error);

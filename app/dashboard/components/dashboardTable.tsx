@@ -8,9 +8,9 @@ import {
 } from '@/components/ui/table';
 import { Play, Download, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import type { File } from '../types';
+import type { AudioDataType } from '../types';
 
-export default function DashboardTable({ files }: { files: File[] }) {
+const DashboardTable = ({ audioData }: { audioData: AudioDataType[] }) => {
   return (
     <Table>
       <TableHeader>
@@ -18,17 +18,15 @@ export default function DashboardTable({ files }: { files: File[] }) {
           <TableHead>File Name</TableHead>
           <TableHead>Upload Date</TableHead>
           <TableHead>Language</TableHead>
-          <TableHead>Status</TableHead>
           <TableHead>Actions</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {files.map((file) => (
-          <TableRow key={file.id}>
-            <TableCell>{file.name}</TableCell>
-            <TableCell>{file.uploadDate}</TableCell>
-            <TableCell>{file.language}</TableCell>
-            <TableCell>{file.status}</TableCell>
+        {audioData.map((audio) => (
+          <TableRow key={audio.audio_id}>
+            <TableCell>{audio.file_name}</TableCell>
+            <TableCell>{audio.created_at}</TableCell>
+            <TableCell>{audio.language}</TableCell>
             <TableCell>
               <div className='flex space-x-2'>
                 <Button variant='ghost' size='icon'>
@@ -47,4 +45,6 @@ export default function DashboardTable({ files }: { files: File[] }) {
       </TableBody>
     </Table>
   );
-}
+};
+
+export default DashboardTable;
