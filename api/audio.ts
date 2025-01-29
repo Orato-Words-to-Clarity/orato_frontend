@@ -2,6 +2,7 @@ import { AudioDataType } from '@/app/dashboard/types';
 import { privateGateway } from '@/services/gateways';
 import { orato } from '@/services/urls';
 import { Dispatch, SetStateAction } from 'react';
+import { toast } from 'react-hot-toast';
 
 export const getAudioList = async (setAudioData: Dispatch<SetStateAction<AudioDataType[]>>) => {
   privateGateway
@@ -15,6 +16,6 @@ export const getAudioList = async (setAudioData: Dispatch<SetStateAction<AudioDa
       setAudioData(response.data.data);
     })
     .catch((error) => {
-      console.log(error);
+      toast.error(error.response.data.message);
     });
 };
