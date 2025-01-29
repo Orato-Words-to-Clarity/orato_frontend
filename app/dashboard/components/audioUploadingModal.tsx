@@ -4,7 +4,6 @@ import { RecordingModalProps } from '../types';
 import { Upload } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useDropzone } from 'react-dropzone';
-import { getTranscription } from '@/api/audio';
 
 const AudioUploadingModal: React.FC<RecordingModalProps> = ({ isOpen, handleClose }) => {
   const [file, setFile] = useState<File | null>(null);
@@ -63,14 +62,14 @@ const AudioUploadingModal: React.FC<RecordingModalProps> = ({ isOpen, handleClos
       const formData = new FormData();
       formData.append('file', file);
 
-      getTranscription(formData)
-        .then((response) => {
-          console.log(response);
-          handleClose();
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      // getTranscription(formData)
+      //   .then((response) => {
+      //     console.log(response);
+      //     handleClose();
+      //   })
+      //   .catch((error) => {
+      //     console.log(error);
+      //   });
     }
   };
 

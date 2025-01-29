@@ -52,10 +52,10 @@ privateGateway.interceptors.response.use(
         const response = await publicGateway.post(orato.refresh, {
           refresh_token: localStorage.getItem('refresh_token'),
         });
-        localStorage.setItem('access_token', response.data.access_token);
-        localStorage.setItem('refresh_token', response.data.refresh_token);
+        localStorage.setItem('access_token', response.data.data.access_token);
+        localStorage.setItem('refresh_token', response.data.data.refresh_token);
         const { config } = error;
-        config.headers['Authorization'] = `Bearer ${localStorage.getItem('accessToken')}`;
+        config.headers['Authorization'] = `Bearer ${localStorage.getItem('access_token')}`;
         return await new Promise((resolve, reject) => {
           privateGateway
             .request(config)
@@ -70,7 +70,7 @@ privateGateway.interceptors.response.use(
         setTimeout(() => {
           localStorage.clear();
           window.location.href = '/login';
-        }, 3000);
+        }, 2000);
         return Promise.reject(error_2);
       }
     } else {

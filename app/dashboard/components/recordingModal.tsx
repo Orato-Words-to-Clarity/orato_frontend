@@ -7,7 +7,6 @@ import { RecordingModalProps } from '../types';
 import RingLoader from 'react-spinners/RingLoader';
 import BarLoader from 'react-spinners/BarLoader';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { getTranscription } from '@/api/audio';
 
 const RecordingModal: React.FC<RecordingModalProps> = ({ isOpen, handleClose }) => {
   const [includeMicAudio, setIncludeMicAudio] = useState<boolean>(true);
@@ -140,7 +139,7 @@ const RecordingModal: React.FC<RecordingModalProps> = ({ isOpen, handleClose }) 
       const formData = new FormData();
       formData.append('file', audioBlob);
 
-      getTranscription(formData);
+      // getTranscription(formData);
     }
   };
 
