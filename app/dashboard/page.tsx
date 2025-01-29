@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Upload, Mic, Download, Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
@@ -10,6 +10,7 @@ import ActionBtn from './components/actionBtn';
 import DashboardTable from './components/dashboardTable';
 import RecordingModal from './components/recordingModal';
 import AudioUploadingModal from './components/audioUploadingModal';
+import { getAudioList } from '@/api/audio';
 
 const mockFiles = [
   {
@@ -60,6 +61,10 @@ export default function Dashboard() {
   const filteredFiles = mockFiles.filter((file) =>
     file.name.toLowerCase().includes(searchTerm.toLowerCase()),
   );
+
+  useEffect(() => {
+    getAudioList();
+  }, []);
 
   return (
     <>
