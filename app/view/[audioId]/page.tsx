@@ -11,8 +11,9 @@ import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { getAudioDetails } from '@/api/audio';
 import { AudioDetailsType } from '../types';
+import withAuth from '@/hoc/withAuth';
 
-export default function View() {
+function View() {
   const { audioId } = useParams();
 
   const [audioDetails, setAudioDetails] = useState<AudioDetailsType>({
@@ -53,3 +54,5 @@ export default function View() {
     </>
   );
 }
+
+export default withAuth(View);

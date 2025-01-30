@@ -12,8 +12,9 @@ import AudioUploadingModal from './components/audioUploadingModal';
 import { getAudioList } from '@/api/audio';
 import { AudioDataType } from './types';
 import DashboardTable from './components/dashboardTable';
+import withAuth from '@/hoc/withAuth';
 
-export default function Dashboard() {
+function Dashboard() {
   const [searchTerm, setSearchTerm] = useState('');
   const [recordingModalOpen, setRecordingModalOpen] = useState(false);
   const [audioUploadingModalOpen, setAudioUploadingModalOpen] = useState(false);
@@ -72,3 +73,5 @@ export default function Dashboard() {
     </>
   );
 }
+
+export default withAuth(Dashboard);
