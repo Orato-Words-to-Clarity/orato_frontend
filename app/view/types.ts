@@ -9,3 +9,9 @@ export type AudioDetailsType = {
     text: string;
   };
 };
+
+export type CreatePayloadType = {
+  request_type: string;
+  custome_prompt: string;
+  transcription_id: string;
+};

@@ -9,4 +9,7 @@ export const orato = {
   upload: '/api/v1/audio/upload-audio/',
   transciption: '/api/v1/transcription/transcribe/',
   audioDetails: (audioId: string) => `/api/v1/audio/${audioId}/`,
+
+  // Interaction
+  create: '/api/v1/interactions/create/',
 };
