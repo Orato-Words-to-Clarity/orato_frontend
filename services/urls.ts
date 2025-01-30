@@ -12,4 +12,5 @@ export const orato = {
 
   // Interaction
   create: '/api/v1/interactions/create/',
+  ask: '/api/v1/interactions/ask',
 };

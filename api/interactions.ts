@@ -26,3 +26,23 @@ export const createInteraction = async (
       setLoadingGeneration(false);
     });
 };
+
+export const askInteraction = async (
+  transcription_id: string,
+  query: string,
+  setAiResponse: Dispatch<SetStateAction<string>>,
+  setLoadingAnswering: Dispatch<SetStateAction<boolean>>,
+) => {
+  privateGateway
+    .post(orato.ask, { query, transcription_id })
+    .then((response) => {
+      setAiResponse(response.data.data);
+      console.log(response.data.data);
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+    .finally(() => {
+      setLoadingAnswering(false);
+    });
+};

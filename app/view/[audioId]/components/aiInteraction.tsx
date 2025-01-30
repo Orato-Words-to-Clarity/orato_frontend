@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { CreatePayloadType } from '../../types';
-import { createInteraction } from '@/api/interactions';
+import { askInteraction, createInteraction } from '@/api/interactions';
 import { PuffLoader } from 'react-spinners';
 import { ScrollArea } from '@radix-ui/react-scroll-area';
 import html2canvas from 'html2canvas';
@@ -22,10 +22,13 @@ export const AiInteraction = ({ transcription_id }: { transcription_id: string }
     transcription_id: transcription_id,
   });
   const [loadingGeneration, setLoadingGeneration] = useState<boolean>(false);
+  const [loadingAnswering, setLoadingAnswering] = useState<boolean>(false);
 
   const handleAskQuery = () => {
-    // Implement AI query logic here
-    setAiResponse(`This is a sample AI response to the query: "${query}"`);
+    if (query && transcription_id) {
+      setLoadingAnswering(true);
+      askInteraction(transcription_id, query, setAiResponse, setLoadingAnswering);
+    }
   };
 
   const handleGenerateDefault = (type: string) => {
@@ -104,11 +107,21 @@ export const AiInteraction = ({ transcription_id }: { transcription_id: string }
               value={query}
               onChange={(e) => setQuery(e.target.value)}
             />
-            <Button onClick={handleAskQuery}>Submit</Button>
-            {aiResponse && (
+            <Button onClick={handleAskQuery} disabled={!query}>
+              Submit
+            </Button>
+            {(loadingAnswering || aiResponse) && (
               <div className='mt-4 p-4 bg-gray-100 rounded-md'>
-                <h3 className='font-semibold mb-2'>AI Response:</h3>
-                <p>{aiResponse}</p>
+                {loadingAnswering ? (
+                  <div className='flex justify-center'>
+                    <PuffLoader color='#000' size={50} />
+                  </div>
+                ) : (
+                  <>
+                    <h3 className='font-semibold mb-2'>AI Response:</h3>
+                    <p>{aiResponse}</p>
+                  </>
+                )}
               </div>
             )}
           </div>
