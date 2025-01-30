@@ -32,10 +32,6 @@ export default function Dashboard() {
     }
   }, [recordingModalOpen, audioUploadingModalOpen]);
 
-  useEffect(() => {
-    console.log(audioData);
-  }, [audioData]);
-
   return (
     <>
       <RecordingModal isOpen={recordingModalOpen} handleClose={hadleRecordingModalClose} />
