@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -6,8 +6,13 @@ import { Textarea } from '@/components/ui/textarea';
 import { CreatePayloadType } from '../../types';
 import { createInteraction } from '@/api/interactions';
 import { PuffLoader } from 'react-spinners';
+import { ScrollArea } from '@radix-ui/react-scroll-area';
+import html2canvas from 'html2canvas';
+import { jsPDF } from 'jspdf';
 
 export const AiInteraction = ({ transcription_id }: { transcription_id: string }) => {
+  const contentRef = useRef<HTMLDivElement>(null);
+
   const [query, setQuery] = useState('');
   const [aiResponse, setAiResponse] = useState('');
   const [generatedContent, setGeneratedContent] = useState('');
@@ -36,6 +41,35 @@ export const AiInteraction = ({ transcription_id }: { transcription_id: string }
       ...prevPayload,
       request_type: 'custom',
     }));
+  };
+
+  const exportAsTxt = () => {
+    const blob = new Blob([generatedContent.replace(/<[^>]*>?/gm, '')], { type: 'text/plain' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'export.txt';
+    link.click();
+  };
+
+  const exportAsDoc = () => {
+    const blob = new Blob([generatedContent], { type: 'application/msword' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'export.doc';
+    link.click();
+  };
+
+  const exportAsPdf = async () => {
+    if (!contentRef.current) return;
+
+    const canvas = await html2canvas(contentRef.current);
+    const imgData = canvas.toDataURL('image/png');
+    const pdf = new jsPDF('p', 'mm', 'a4');
+    const imgWidth = 210;
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+    pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+    pdf.save('export.pdf');
   };
 
   useEffect(() => {
@@ -110,11 +144,22 @@ export const AiInteraction = ({ transcription_id }: { transcription_id: string }
                 ) : (
                   <>
                     <h3 className='font-semibold mb-2'>Generated Content:</h3>
-                    <p dangerouslySetInnerHTML={{ __html: generatedContent }}></p>
+                    <ScrollArea className='max-h-[400px] w-full rounded-md border p-4 overflow-auto'>
+                      <div
+                        ref={contentRef}
+                        dangerouslySetInnerHTML={{ __html: generatedContent }}
+                      ></div>
+                    </ScrollArea>
                     <div className='mt-4 flex justify-end space-x-2'>
-                      <Button variant='outline'>Export as TXT</Button>
-                      <Button variant='outline'>Export as DOC</Button>
-                      <Button variant='outline'>Export as PDF</Button>
+                      <Button onClick={exportAsTxt} variant='outline'>
+                        Export as TXT
+                      </Button>
+                      <Button onClick={exportAsDoc} variant='outline'>
+                        Export as DOC
+                      </Button>
+                      <Button onClick={exportAsPdf} variant='outline'>
+                        Export as PDF
+                      </Button>
                     </div>
                   </>
                 )}
