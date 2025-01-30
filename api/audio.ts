@@ -52,3 +52,18 @@ export const getAudioDetails = async (
       toast.error(error.response.data.message);
     });
 };
+
+export const transcribeAudio = async (
+  audioId: string,
+  setFetch: Dispatch<SetStateAction<boolean>>,
+) => {
+  privateGateway
+    .post(orato.transciption, { audio_id: audioId })
+    .then((response) => {
+      toast.success(response.data.message);
+      setFetch((prev) => !prev);
+    })
+    .catch((error) => {
+      console.log(error.response.message);
+    });
+};

@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { HashLoader } from 'react-spinners';
 
 const withAuth = (WrappedComponent: React.FC) => {
   const AuthComponent = (props: any) => {
@@ -18,7 +19,12 @@ const withAuth = (WrappedComponent: React.FC) => {
       }
     }, []);
 
-    if (loading) return <p>Loading...</p>;
+    if (loading)
+      return (
+        <div className='min-h-screen w-full flex items-center justify-center'>
+          <HashLoader color='black' size={50} />
+        </div>
+      );
 
     return <WrappedComponent {...props} />;
   };
