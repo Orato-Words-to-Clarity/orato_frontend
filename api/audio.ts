@@ -1,4 +1,5 @@
 import { AudioDataType } from '@/app/dashboard/types';
+import { AudioDetailsType } from '@/app/view/types';
 import { privateGateway } from '@/services/gateways';
 import { orato } from '@/services/urls';
 import { Dispatch, SetStateAction } from 'react';
@@ -32,6 +33,20 @@ export const uploadAudio = async (formData: FormData, handleClose: () => void) =
       toast.success(response.data.message);
       handleClose();
       window.location.href = `/view/${response.data.data.audio_id}`;
+    })
+    .catch((error) => {
+      toast.error(error.response.data.message);
+    });
+};
+
+export const getAudioDetails = async (
+  audioId: string,
+  setAudioDetails: Dispatch<SetStateAction<AudioDetailsType>>,
+) => {
+  privateGateway
+    .get(orato.audioDetails(audioId))
+    .then((response) => {
+      setAudioDetails(response.data.data);
     })
     .catch((error) => {
       toast.error(error.response.data.message);

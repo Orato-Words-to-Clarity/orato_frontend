@@ -3,13 +3,17 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Edit2 } from 'lucide-react';
 import { HiOutlineRefresh } from 'react-icons/hi';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-export const Transcription = () => {
+export const Transcription = ({ audioTranscription }: { audioTranscription: string }) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [transcription, setTranscription] = useState(
-    'This is a sample transcription. It would contain the full text of the audio file with timestamps and speaker tags.',
-  );
+  const [transcription, setTranscription] = useState(audioTranscription);
+
+  useEffect(() => {
+    if (!audioTranscription) {
+      console.log('No transcription found');
+    }
+  }, [audioTranscription]);
 
   return (
     <div className='bg-white shadow rounded-lg p-6'>

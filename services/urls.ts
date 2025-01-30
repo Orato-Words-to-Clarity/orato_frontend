@@ -8,4 +8,5 @@ export const orato = {
   list: '/api/v1/audio/',
   upload: '/api/v1/audio/upload-audio/',
   transciption: '/api/v1/transcription/transcribe/',
+  audioDetails: (audioId: string) => `/api/v1/audio/${audioId}/`,
 };

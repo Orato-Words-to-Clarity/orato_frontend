@@ -11,8 +11,9 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Download, Trash2 } from 'lucide-react';
+import { AudioDetailsType } from '../../types';
 
-function AudioInfo() {
+function AudioInfo({ audioDetails }: { audioDetails: AudioDetailsType }) {
   const handleDelete = () => {
     // Implement delete logic here
     console.log('Delete audio file');
@@ -24,7 +25,7 @@ function AudioInfo() {
         <h2 className='text-2xl font-bold text-gray-800 mb-4'>Audio Player</h2>
         <div className='flex items-center justify-between mb-4'>
           <div className='flex items-center'>
-            <audio controls src='dummy'></audio>
+            <audio controls src={audioDetails.file_path ? audioDetails.file_path : 'dummy'}></audio>
           </div>
           <div className='flex items-center space-x-2'>
             <Button variant='outline'>
@@ -59,10 +60,10 @@ function AudioInfo() {
           </div>
         </div>
         <div className='text-sm text-gray-500'>
-          <p>File Name: example_audio.mp3</p>
-          <p>Upload Date: 2023-07-15</p>
-          <p>Language: English</p>
-          <p>Duration: 15:30</p>
+          <p>File Name: {audioDetails.file_name}</p>
+          <p>Upload Date: {audioDetails.created_at}</p>
+          <p>Language: {audioDetails.language ? audioDetails.language : '-'}</p>
+          <p>Duration: </p>
         </div>
       </div>
     </>

@@ -7,8 +7,29 @@ import { AiInteraction } from './components/aiInteraction';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
+import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { getAudioDetails } from '@/api/audio';
+import { AudioDetailsType } from '../types';
 
 export default function View() {
+  const { audioId } = useParams();
+
+  const [audioDetails, setAudioDetails] = useState<AudioDetailsType>({
+    audio_id: '',
+    file_path: '',
+    file_name: '',
+    language: '',
+    created_at: '',
+    transcription: '',
+  });
+
+  useEffect(() => {
+    if (audioId && typeof audioId === 'string') {
+      getAudioDetails(audioId, setAudioDetails);
+    }
+  }, [audioId]);
+
   return (
     <>
       <div className='min-h-screen bg-gray-100'>
@@ -22,9 +43,9 @@ export default function View() {
               </Button>
             </Link>
           </div>
-          <AudioInfo />
+          <AudioInfo audioDetails={audioDetails} />
           <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
-            <Transcription />
+            <Transcription audioTranscription={audioDetails.transcription} />
             <AiInteraction />
           </div>
         </main>
