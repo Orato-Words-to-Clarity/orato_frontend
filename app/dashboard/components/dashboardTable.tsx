@@ -18,25 +18,32 @@ const DashboardTable = ({ audioData }: { audioData: AudioDataType[] }) => {
   );
 
   const handlePlayPause = (audioId: string, filePath: string) => {
-    if (!audioElements[audioId]) {
-      const newAudio = new Audio(filePath);
+    let currentAudio = audioElements[audioId];
+
+    if (!currentAudio) {
+      currentAudio = new Audio(filePath);
       setAudioElements((prev) => ({
         ...prev,
-        [audioId]: newAudio,
+        [audioId]: currentAudio,
       }));
-    }
 
-    const currentAudio = audioElements[audioId] || new Audio(filePath);
+      // Add an event listener to reset playingAudioId when audio ends
+      currentAudio.addEventListener('ended', () => {
+        setPlayingAudioId(null);
+      });
+    }
 
     if (playingAudioId === audioId) {
       currentAudio.pause();
       setPlayingAudioId(null);
     } else {
+      // Pause all currently playing audios
       Object.values(audioElements).forEach((audio) => audio?.pause());
       currentAudio.play();
       setPlayingAudioId(audioId);
     }
   };
+
   return (
     <Table>
       <TableHeader>
