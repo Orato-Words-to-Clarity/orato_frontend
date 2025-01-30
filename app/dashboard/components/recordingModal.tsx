@@ -140,7 +140,7 @@ const RecordingModal: React.FC<RecordingModalProps> = ({ isOpen, handleClose }) 
       const formData = new FormData();
       formData.append('file', audioBlob);
       const recordingDateTime = new Date().toISOString().replace(/[:.]/g, '-');
-      const filename = `recording_${recordingDateTime}`;
+      const filename = `recording_${recordingDateTime}.webm`;
       formData.append('file', audioBlob, filename);
       uploadAudio(formData, handleCancel);
     }
