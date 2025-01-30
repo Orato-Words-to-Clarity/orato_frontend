@@ -61,7 +61,9 @@ export const transcribeAudio = async (
     .post(orato.transciption, { audio_id: audioId })
     .then((response) => {
       toast.success(response.data.message);
-      setFetch((prev) => !prev);
+      setTimeout(() => {
+        setFetch((prev) => !prev);
+      }, 500);
     })
     .catch((error) => {
       console.log(error.response.message);

@@ -30,6 +30,7 @@ function View() {
   });
 
   useEffect(() => {
+    console.log('fetch: ', fetch);
     if (audioId && typeof audioId === 'string') {
       getAudioDetails(audioId, setAudioDetails);
     }
@@ -51,7 +52,7 @@ function View() {
           <AudioInfo audioDetails={audioDetails} />
           <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
             <Transcription audioDetails={audioDetails} setFetch={setFetch} />
-            <AiInteraction transcription_id={audioDetails.transcription.transcription_id} />
+            <AiInteraction transcription_id={audioDetails?.transcription?.transcription_id} />
           </div>
         </main>
       </div>
