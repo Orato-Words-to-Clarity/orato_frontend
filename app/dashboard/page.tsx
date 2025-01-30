@@ -2,10 +2,11 @@
 
 import { useEffect, useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { Upload, Mic, Download, Search } from 'lucide-react';
+// import { Upload, Mic, Download, Search } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import DashboardHeader from './components/dashboardHeader';
-import MatrixCard from './components/matrixCard';
+// import MatrixCard from './components/matrixCard';
 import ActionBtn from './components/actionBtn';
 import RecordingModal from './components/recordingModal';
 import AudioUploadingModal from './components/audioUploadingModal';
@@ -44,11 +45,11 @@ function Dashboard() {
       <div className='min-h-screen bg-gray-100'>
         <DashboardHeader />
         <main className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8'>
-          <div className='grid grid-cols-1 md:grid-cols-3 gap-6 mb-8'>
+          {/* <div className='grid grid-cols-1 md:grid-cols-3 gap-6 mb-8'>
             <MatrixCard name='Total Files' value={15} icon={Upload} color='blue' />
             <MatrixCard name='pending Transcriptions' value={3} icon={Mic} color='yellow' />
             <MatrixCard name='Completed Transcriptions' value={12} icon={Download} color='green' />
-          </div>
+          </div> */}
           <Card>
             <CardContent className='p-6'>
               <div className='mb-4 flex items-center'>

@@ -57,6 +57,7 @@ const DashboardTable = ({ audioData }: { audioData: AudioDataType[] }) => {
       <TableBody>
         {audioData.map((audio) => (
           <TableRow
+            className='cursor-pointer'
             key={audio.audio_id}
             onClick={() => {
               window.location.href = `/view/${audio.audio_id}`;

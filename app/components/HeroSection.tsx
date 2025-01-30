@@ -17,12 +17,12 @@ export default function HeroSection() {
           >
             Get Started
           </Link>
-          <Link
+          {/* <Link
             href='/'
             className='font-poppins font-medium text-lg px-8 py-4 border-2 border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors duration-300'
           >
             Learn More
-          </Link>
+          </Link> */}
         </div>
       </div>
     </section>
