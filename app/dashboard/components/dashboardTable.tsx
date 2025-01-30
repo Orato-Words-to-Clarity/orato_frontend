@@ -63,7 +63,10 @@ const DashboardTable = ({ audioData }: { audioData: AudioDataType[] }) => {
                 <Button
                   variant='ghost'
                   size='icon'
-                  onClick={() => handlePlayPause(audio.audio_id, audio.file_path)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handlePlayPause(audio.audio_id, audio.file_path);
+                  }}
                 >
                   {playingAudioId === audio.audio_id ? (
                     <Pause className='h-4 w-4' />
