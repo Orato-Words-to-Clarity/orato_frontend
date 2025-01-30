@@ -4,5 +4,8 @@ export type AudioDetailsType = {
   file_name: string;
   language: string;
   created_at: string;
-  transcription: string;
+  transcription: {
+    transcription_id: string;
+    text: string;
+  };
 };

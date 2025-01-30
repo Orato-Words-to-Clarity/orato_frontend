@@ -16,20 +16,24 @@ import withAuth from '@/hoc/withAuth';
 function View() {
   const { audioId } = useParams();
 
+  const [fetch, setFetch] = useState<boolean>(false);
   const [audioDetails, setAudioDetails] = useState<AudioDetailsType>({
     audio_id: '',
     file_path: '',
     file_name: '',
     language: '',
     created_at: '',
-    transcription: '',
+    transcription: {
+      transcription_id: '',
+      text: '',
+    },
   });
 
   useEffect(() => {
     if (audioId && typeof audioId === 'string') {
       getAudioDetails(audioId, setAudioDetails);
     }
-  }, [audioId]);
+  }, [audioId, fetch]);
 
   return (
     <>
@@ -46,7 +50,7 @@ function View() {
           </div>
           <AudioInfo audioDetails={audioDetails} />
           <div className='grid grid-cols-1 md:grid-cols-2 gap-8'>
-            <Transcription audioTranscription={audioDetails.transcription} />
+            <Transcription audioDetails={audioDetails} setFetch={setFetch} />
             <AiInteraction />
           </div>
         </main>
