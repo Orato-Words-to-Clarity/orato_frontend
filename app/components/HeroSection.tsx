@@ -12,7 +12,7 @@ export default function HeroSection() {
         </p>
         <div className='flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4'>
           <Link
-            href='/'
+            href='/dashboard'
             className='font-poppins font-semibold text-lg px-8 py-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-300'
           >
             Get Started

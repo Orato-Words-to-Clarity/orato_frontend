@@ -27,7 +27,7 @@ export default function Header() {
               Login
             </Link>
             <Link
-              href='/'
+              href='/signup'
               className='font-roboto font-medium text-lg text-gray-600 hover:text-blue-600 hover:underline'
             >
               Sign Up
