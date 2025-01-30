@@ -14,7 +14,6 @@ export default function Login() {
     password: '',
   });
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
   const [mounted, setMounted] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
 
