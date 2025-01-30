@@ -23,7 +23,12 @@ const DashboardTable = ({ audioData }: { audioData: AudioDataType[] }) => {
       </TableHeader>
       <TableBody>
         {audioData.map((audio) => (
-          <TableRow key={audio.audio_id}>
+          <TableRow
+            key={audio.audio_id}
+            onClick={() => {
+              window.location.href = `/view/${audio.audio_id}`;
+            }}
+          >
             <TableCell>{audio.file_name}</TableCell>
             <TableCell>{audio.created_at}</TableCell>
             <TableCell>{audio.language}</TableCell>
