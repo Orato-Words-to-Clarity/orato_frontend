@@ -23,7 +23,7 @@ export default function ForgotPassword() {
       setMessage("OTP sent to your email!");
       setTimeout(() => {
         // Redirecting to OTP page after the OTP is sent
-        window.location.href = "/otp"; // Programmatic redirect
+        window.location.href = "/login/forgotPassword/otp"; // Programmatic redirect
       }, 1000); // Wait for a brief moment before redirect
     } else {
       setMessage("Error: Unable to send OTP.");

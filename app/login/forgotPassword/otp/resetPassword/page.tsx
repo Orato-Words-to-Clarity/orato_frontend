@@ -9,11 +9,11 @@ export default function ResetPassword() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState('');
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (password === confirmPassword) {
       setMessage('Password reset successfully');
-      
+
       // Redirect to login page after password reset
       setTimeout(() => {
         window.location.href = "/login"; // Redirect to login page
@@ -52,7 +52,7 @@ export default function ResetPassword() {
           </div>
           <Button
             type="submit"
-            className="w-full bg-black text-white py-2 rounded hover:bg-black"
+            className="w-full bg-black text-white py-2 rounded hover:bg-gray-800"
           >
             Reset Password
           </Button>

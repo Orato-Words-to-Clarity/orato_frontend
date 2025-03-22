@@ -14,14 +14,14 @@ export default function EnterOtp() {
     setMounted(true);
   }, []);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Call API to verify OTP
     setMessage('OTP verified successfully');
-    
+
     // Navigate to the resetPassword page after a short delay to show the message
     setTimeout(() => {
-      window.location.href = "/resetPassword"; // Redirect to resetPassword page
+      window.location.href = "/login/forgotPassword/otp/resetPassword"; // Redirect to resetPassword page
     }, 1000); // 1 second delay to allow the message to be shown
   };
 
@@ -47,7 +47,7 @@ export default function EnterOtp() {
           </div>
           <Button
             type="submit"
-            className="w-full bg-black text-white py-2 rounded hover:bg-black"
+            className="w-full bg-black text-white py-2 rounded hover:bg-gray-800"
           >
             Verify OTP
           </Button>
