@@ -9,6 +9,10 @@ import { Button } from '@/components/ui/button';
 import { User, Settings, LogOut } from 'lucide-react';
 
 export default function DashboardHeader() {
+  const handleLogout =() =>{
+    localStorage.clear();
+    window.location.href = '/';
+  }
   return (
     <header className='bg-white shadow-sm'>
       <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between'>
@@ -29,7 +33,7 @@ export default function DashboardHeader() {
               <Settings className='mr-2 h-4 w-4' />
               <span>Settings</span>
             </DropdownMenuItem>
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={handleLogout}>
               <LogOut className='mr-2 h-4 w-4' />
               <span>Log out</span>
             </DropdownMenuItem>
