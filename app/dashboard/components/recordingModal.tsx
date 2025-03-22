@@ -1,5 +1,5 @@
 import Modal from '@/app/components/Modal';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -14,12 +14,14 @@ const RecordingModal: React.FC<RecordingModalProps> = ({ isOpen, handleClose }) 
   const [includeSystemAudio, setIncludeSystemAudio] = useState<boolean>(false);
   const [isRecording, setIsRecording] = useState<boolean>(false);
   const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
-
   const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
   const [audioURL, setAudioURL] = useState<string | null>(null);
   const [streams, setStreams] = useState<MediaStream[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isInitializing, setIsInitializing] = useState<boolean>(false);
+  const [recordingTime, setRecordingTime] = useState<number>(0);
+
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const startRecording = async () => {
     try {
@@ -97,15 +99,18 @@ const RecordingModal: React.FC<RecordingModalProps> = ({ isOpen, handleClose }) 
         const url = URL.createObjectURL(NewRecording);
         setAudioURL(url);
         cleanupStreams();
+        stopTimer();
       };
 
       setStreams(streamsToRecord);
       recorder.start(1000); // Record in 1-second chunks
       setMediaRecorder(recorder);
       setIsRecording(true);
+      startTimer();
     } catch (error) {
       setError('An error occurred while starting the recording: ' + error);
       cleanupStreams();
+      stopTimer();
     } finally {
       setIsInitializing(false);
     }
@@ -125,6 +130,7 @@ const RecordingModal: React.FC<RecordingModalProps> = ({ isOpen, handleClose }) 
       mediaRecorder.stop();
       setIsRecording(false);
       cleanupStreams();
+      stopTimer();
     }
   };
 
@@ -133,6 +139,7 @@ const RecordingModal: React.FC<RecordingModalProps> = ({ isOpen, handleClose }) 
       URL.revokeObjectURL(audioURL);
     }
     cleanupStreams();
+    stopTimer();
   };
 
   const handleTranscription = () => {
@@ -172,6 +179,27 @@ const RecordingModal: React.FC<RecordingModalProps> = ({ isOpen, handleClose }) 
     setIsRecording(false);
   };
 
+  // Timer functions
+  const startTimer = () => {
+    setRecordingTime(0);
+    timerRef.current = setInterval(() => {
+      setRecordingTime((prevTime) => prevTime + 1);
+    }, 1000);
+  };
+
+  const stopTimer = () => {
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+  };
+
+  const formatTime = (time: number): string => {
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
+    return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  };
+
   return (
     <Modal title='Record Audio' isOpen={isOpen} onClose={handleModalClose}>
       <div className='space-y-4'>
@@ -183,8 +211,9 @@ const RecordingModal: React.FC<RecordingModalProps> = ({ isOpen, handleClose }) 
         {!audioURL ? (
           <>
             {isRecording ? (
-              <div className='flex justify-center space-x-2 py-6'>
+              <div className='flex flex-col items-center justify-center space-y-2 py-6'>
                 <RingLoader />
+                <div className='text-lg font-medium text-gray-800'>{formatTime(recordingTime)}</div>
               </div>
             ) : (
               <>
