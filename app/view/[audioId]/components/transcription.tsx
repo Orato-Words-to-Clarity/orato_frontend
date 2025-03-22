@@ -17,7 +17,9 @@ export const Transcription = ({
 }) => {
   useEffect(() => {
     if (!audioDetails.transcription) {
-      transcribeAudio(audioDetails.audio_id, setFetch);
+      setTimeout(() => {
+        transcribeAudio(audioDetails.audio_id, setFetch);
+      }, 1000);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [audioDetails]);
