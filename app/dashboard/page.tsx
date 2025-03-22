@@ -15,6 +15,7 @@ import { AudioDataType } from './types';
 import DashboardTable from './components/dashboardTable';
 import withAuth from '@/hoc/withAuth';
 import RedirectionForApi from './components/RedirectionForApi';
+import ActionsDiv from './components/ActionsDiv';
 
 function Dashboard() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -52,6 +53,10 @@ function Dashboard() {
             <MatrixCard name='Completed Transcriptions' value={12} icon={Download} color='green' />
           </div> */}
           <RedirectionForApi />
+          <ActionsDiv
+            setAudioUploadingModalOpen={setAudioUploadingModalOpen}
+            setRecordingModalOpen={setRecordingModalOpen}
+          />
           <Card>
             <CardContent className='p-6'>
               <div className='mb-4 flex items-center'>
