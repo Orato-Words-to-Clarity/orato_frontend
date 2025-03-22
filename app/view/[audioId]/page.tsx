@@ -1,6 +1,6 @@
 'use client';
 
-import DashboardHeader from '@/app/dashboard/components/dashboardHeader';
+import DashboardHeader from '@/app/components/dashboardHeader';
 import AudioInfo from './components/audioInfo';
 import { Transcription } from './components/transcription';
 import { AiInteraction } from './components/aiInteraction';

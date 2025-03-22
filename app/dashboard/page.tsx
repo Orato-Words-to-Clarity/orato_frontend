@@ -5,7 +5,7 @@ import { Card, CardContent } from '@/components/ui/card';
 // import { Upload, Mic, Download, Search } from 'lucide-react';
 import { Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
-import DashboardHeader from './components/dashboardHeader';
+import DashboardHeader from '../components/dashboardHeader';
 // import MatrixCard from './components/matrixCard';
 import ActionBtn from './components/actionBtn';
 import RecordingModal from './components/recordingModal';

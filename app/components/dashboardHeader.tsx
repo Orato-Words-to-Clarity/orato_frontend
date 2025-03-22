@@ -1,3 +1,4 @@
+'use client';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,6 +8,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { User, Settings, LogOut } from 'lucide-react';
+import Link from 'next/link';
 
 export default function DashboardHeader() {
   const handleLogout = () => {
@@ -25,15 +27,19 @@ export default function DashboardHeader() {
           </DropdownMenuTrigger>
           <DropdownMenuContent align='end'>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <User className='mr-2 h-4 w-4' />
-              <span>Profile</span>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Settings className='mr-2 h-4 w-4' />
-              <span>Settings</span>
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={handleLogout}>
+            <Link href='/dashboard'>
+              <DropdownMenuItem>
+                <Settings className='mr-2 h-4 w-4' />
+                <span>Dashboard</span>
+              </DropdownMenuItem>
+            </Link>
+            <Link href='/profile'>
+              <DropdownMenuItem>
+                <User className='mr-2 h-4 w-4' />
+                <span>Profile</span>
+              </DropdownMenuItem>
+            </Link>
+            <DropdownMenuItem onClick={() => handleLogout()}>
               <LogOut className='mr-2 h-4 w-4' />
               <span>Log out</span>
             </DropdownMenuItem>
