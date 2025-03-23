@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DashboardHeader from '../components/dashboardHeader';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
@@ -9,11 +9,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Switch } from '@/components/ui/switch';
 import { ApiKeyData } from './types';
+import { getProfileData, setApiKey } from '@/api/profile';
 
 const ProfilePage = () => {
-  // eslint-disable-next-line
-  const [userEmail, setUserEmail] = useState<string>('test@gmail.com');
-  const [useOwnKeys, setUseOwnKeys] = useState<boolean>(false);
+  const [userEmail, setUserEmail] = useState<string>('');
   const [apiKeyData, setApiKeyData] = useState<ApiKeyData>({
     hasKeys: false,
     groqKey: '',
@@ -32,8 +31,8 @@ const ProfilePage = () => {
   };
 
   const handleToggleChange = () => {
-    setUseOwnKeys((prevUseOwnKeys) => !prevUseOwnKeys);
-    if (useOwnKeys) {
+    handleKeyChange('hasKeys', !apiKeyData.hasKeys);
+    if (apiKeyData.hasKeys) {
       setApiKeyData((prevData) => ({
         ...prevData,
         groqKey: '',
@@ -50,13 +49,12 @@ const ProfilePage = () => {
   };
 
   const handleSave = () => {
-    setApiKeyData((prevData) => ({
-      ...prevData,
-      hasChange: false,
-      editingGroqKey: false,
-      editingHuggingFaceKey: false,
-    }));
+    setApiKey(apiKeyData.groqKey, apiKeyData.huggingFaceKey, handleKeyChange);
   };
+
+  useEffect(() => {
+    getProfileData(setUserEmail, handleKeyChange);
+  }, []);
 
   return (
     <div className='min-h-screen bg-gray-100'>
@@ -81,11 +79,15 @@ const ProfilePage = () => {
           </CardHeader>
           <CardContent className='space-y-6'>
             <div className='flex items-center space-x-2'>
-              <Switch id='use-own-keys' checked={useOwnKeys} onCheckedChange={handleToggleChange} />
+              <Switch
+                id='use-own-keys'
+                checked={apiKeyData.hasKeys}
+                onCheckedChange={handleToggleChange}
+              />
               <Label htmlFor='use-own-keys'>Use My Own API Keys</Label>
             </div>
 
-            {useOwnKeys && (
+            {apiKeyData.hasKeys && (
               <div className='space-y-4'>
                 <div className='space-y-2'>
                   <div className='flex items-center justify-between'>
@@ -186,8 +188,8 @@ const ProfilePage = () => {
                     onClick={handleSave}
                     className='mt-4'
                     disabled={
-                      apiKeyData.groqKey.length === 0 ||
-                      apiKeyData.huggingFaceKey.length === 0 ||
+                      (apiKeyData.groqKey && apiKeyData.groqKey.length === 0) ||
+                      (apiKeyData.huggingFaceKey && apiKeyData.huggingFaceKey.length === 0) ||
                       !apiKeyData.hasChange
                     }
                   >
