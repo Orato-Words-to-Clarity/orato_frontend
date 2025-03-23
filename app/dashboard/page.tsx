@@ -16,12 +16,14 @@ import DashboardTable from './components/dashboardTable';
 import withAuth from '@/hoc/withAuth';
 import RedirectionForApi from './components/RedirectionForApi';
 import ActionsDiv from './components/ActionsDiv';
+import { isApiKeySet } from '@/api/profile';
 
 function Dashboard() {
   const [searchTerm, setSearchTerm] = useState('');
   const [recordingModalOpen, setRecordingModalOpen] = useState(false);
   const [audioUploadingModalOpen, setAudioUploadingModalOpen] = useState(false);
   const [audioData, setAudioData] = useState<AudioDataType[]>([]);
+  const [usingOwnApi, setUsingOwnApi] = useState(false);
 
   const hadleRecordingModalClose = () => setRecordingModalOpen(false);
   const handleAudioUploadingModalClose = () => setAudioUploadingModalOpen(false);
@@ -35,6 +37,10 @@ function Dashboard() {
       getAudioList(setAudioData);
     }
   }, [recordingModalOpen, audioUploadingModalOpen]);
+
+  useEffect(() => {
+    isApiKeySet(setUsingOwnApi);
+  }, []);
 
   return (
     <>
@@ -52,7 +58,7 @@ function Dashboard() {
             <MatrixCard name='pending Transcriptions' value={3} icon={Mic} color='yellow' />
             <MatrixCard name='Completed Transcriptions' value={12} icon={Download} color='green' />
           </div> */}
-          <RedirectionForApi />
+          {!usingOwnApi && <RedirectionForApi />}
           <ActionsDiv
             setAudioUploadingModalOpen={setAudioUploadingModalOpen}
             setRecordingModalOpen={setRecordingModalOpen}

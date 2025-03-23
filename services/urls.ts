@@ -19,4 +19,5 @@ export const orato = {
   //profile
   userProfile: '/api/v1/user/',
   setApiKey: '/api/v1/api/set-api-key/',
+  isApiKeySet: '/api/v1/api/is-api-set/',
 };

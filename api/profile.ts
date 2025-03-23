@@ -43,3 +43,14 @@ export const setApiKey = async (
       console.log(error);
     });
 };
+
+export const isApiKeySet = async (setUsingOwnApi: Dispatch<SetStateAction<boolean>>) => {
+  privateGateway
+    .get(orato.isApiKeySet)
+    .then((response) => {
+      setUsingOwnApi(response.data.data.has_keys);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
