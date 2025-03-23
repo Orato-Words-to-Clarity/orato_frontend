@@ -97,18 +97,10 @@ export default function SignUp() {
           </div>
         </div>
         <div className='w-full mt-6'>
-          {loading ? (
-            <div className='flex justify-center'>
-              <BeatLoader color='#1D4ED8' loading={loading} size={10} />
-            </div>
-          ) : (
-            <>
-              <p className='text-red-500 text-sm mt-2'>{error}</p>
-              <Button type='submit' className='w-full' onClick={handleSubmit}>
-                Sign Up
-              </Button>
-            </>
-          )}
+          {error && <p className='text-red-500 text-sm text-center'>{error}</p>}
+          <Button type='submit' className='w-full' onClick={handleSubmit}>
+            {loading ? <BeatLoader color='white' loading={loading} size={10} /> : 'Sign Up'}
+          </Button>
         </div>
 
         <div className='mt-6 text-center'>

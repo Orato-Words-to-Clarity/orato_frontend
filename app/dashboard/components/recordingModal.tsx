@@ -247,7 +247,7 @@ const RecordingModal: React.FC<RecordingModalProps> = ({ isOpen, handleClose }) 
               {!isRecording ? (
                 <Button
                   onClick={startRecording}
-                  className='bg-blue-600 hover:bg-blue-700 w-full'
+                  className='bg-black hover:bg-gray-800 w-full'
                   disabled={(!includeMicAudio && !includeSystemAudio) || isInitializing}
                 >
                   {isInitializing ? <BarLoader /> : 'Start Recording'}
@@ -265,15 +265,12 @@ const RecordingModal: React.FC<RecordingModalProps> = ({ isOpen, handleClose }) 
               <audio controls src={audioURL} className='w-full'></audio>
             </div>
             <div className='flex justify-center space-x-2'>
-              <Button
-                onClick={handleTranscription}
-                className='bg-blue-600 hover:bg-blue-700 w-full'
-              >
+              <Button onClick={handleTranscription} className='bg-black hover:bg-gray-800 w-full'>
                 Transcribe
               </Button>
               <Button
                 onClick={handleCancel}
-                className='border border-blue-600 hover:border-blue-700 w-full'
+                className='border border-black hover:border-gray-800 w-full'
                 variant='outline'
               >
                 Cancel

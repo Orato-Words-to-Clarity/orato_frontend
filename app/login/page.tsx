@@ -72,18 +72,10 @@ export default function Login() {
           </div>
         </div>
         <div className='w-full mt-6'>
-          {isLoading ? (
-            <div className='flex justify-center'>
-              <BeatLoader color='#1D4ED8' loading={isLoading} size={10} />
-            </div>
-          ) : (
-            <>
-              {error && <p className='text-red-500 text-sm text-center'>{error}</p>}
-              <Button type='submit' className='w-full' onClick={handleSubmit}>
-                Log In
-              </Button>
-            </>
-          )}
+          {error && <p className='text-red-500 text-sm text-center'>{error}</p>}
+          <Button type='submit' className='w-full' onClick={handleSubmit}>
+            {isLoading ? <BeatLoader color='white' loading={isLoading} size={10} /> : 'Log In'}
+          </Button>
         </div>
         {/* </form> */}
         <div className='mt-4 text-center'>

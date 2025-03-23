@@ -151,7 +151,7 @@ const ProfilePage = () => {
                       <Button
                         variant='ghost'
                         size='sm'
-                        onClick={() => handleKeyChange('editingHuggingFaceKey', false)}
+                        onClick={() => handleKeyChange('editingHuggingFaceKey', true)}
                       >
                         <PencilIcon className='h-4 w-4' />
                       </Button>
@@ -186,7 +186,9 @@ const ProfilePage = () => {
                     onClick={handleSave}
                     className='mt-4'
                     disabled={
-                      apiKeyData.groqKey.length === 0 || apiKeyData.huggingFaceKey.length === 0
+                      apiKeyData.groqKey.length === 0 ||
+                      apiKeyData.huggingFaceKey.length === 0 ||
+                      !apiKeyData.hasChange
                     }
                   >
                     Save API Keys

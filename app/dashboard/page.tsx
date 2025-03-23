@@ -57,21 +57,23 @@ function Dashboard() {
             setAudioUploadingModalOpen={setAudioUploadingModalOpen}
             setRecordingModalOpen={setRecordingModalOpen}
           />
-          <Card>
-            <CardContent className='p-6'>
-              <div className='mb-4 flex items-center'>
-                <Search className='h-5 w-5 text-gray-400 mr-2' />
-                <Input
-                  type='text'
-                  placeholder='Search transcriptions...'
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className='max-w-sm'
-                />
-              </div>
-              <DashboardTable audioData={filteredAudioData} />
-            </CardContent>
-          </Card>
+          {audioData.length !== 0 && (
+            <Card>
+              <CardContent className='p-6'>
+                <div className='mb-4 flex items-center'>
+                  <Search className='h-5 w-5 text-gray-400 mr-2' />
+                  <Input
+                    type='text'
+                    placeholder='Search transcriptions...'
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className='max-w-sm'
+                  />
+                </div>
+                <DashboardTable audioData={filteredAudioData} />
+              </CardContent>
+            </Card>
+          )}
         </main>
         <ActionBtn
           setRecordingModalOpen={setRecordingModalOpen}

@@ -81,9 +81,9 @@ const AudioUploadingModal: React.FC<RecordingModalProps> = ({ isOpen, handleClos
       <div className='grid gap-4 py-4'>
         <div
           {...getRootProps()}
-          className={`border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors
-                        ${isDragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300 bg-gray-50'}
-                        hover:border-blue-500 hover:bg-blue-50`}
+          className={`border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors 
+                        ${isDragActive ? 'border-gray-500 bg-gray-100' : 'border-gray-300 bg-gray-50'}
+                        hover:border-gray-500 hover:bg-gray-100`}
         >
           <input {...getInputProps()} />
           <Upload className='mx-auto h-12 w-12 text-gray-400' />
@@ -108,7 +108,7 @@ const AudioUploadingModal: React.FC<RecordingModalProps> = ({ isOpen, handleClos
         <Button
           onClick={handleTranscription}
           disabled={!file}
-          className={`${file ? 'bg-green-600 hover:bg-green-700' : 'bg-gray-400'}`}
+          className={`${file ? 'bg-black hover:bg-gray-800 text-white' : 'bg-gray-400'}`}
         >
           Transcribe
         </Button>

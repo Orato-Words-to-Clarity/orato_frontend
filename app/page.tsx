@@ -4,7 +4,7 @@ import { useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { ArrowRight, Mic, Globe, Search, Key, ChevronDown } from 'lucide-react';
+import { ArrowRight, Mic, Search, Key, ChevronDown, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import DashboardHeader from './components/dashboardHeader';
 
@@ -95,9 +95,10 @@ export default function LandingPage() {
                   description: 'Upload files or record voice directly from your browser.',
                 },
                 {
-                  icon: <Globe className='h-8 w-8' />,
-                  title: 'Multilingual Transcription',
-                  description: 'Supports multiple languages via OpenAI Whisper.',
+                  icon: <FileText className='h-8 w-8' />,
+                  title: 'Structured Document Output',
+                  description:
+                    'Convert transcriptions into structured documents just the way you need.',
                 },
                 {
                   icon: <Search className='h-8 w-8' />,
