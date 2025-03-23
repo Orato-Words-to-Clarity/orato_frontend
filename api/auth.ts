@@ -39,13 +39,8 @@ export const authSignup = async (
   console.log('DATA SI');
   publicGateway
     .post(orato.signup, signupData)
-
     .then((response) => {
-      console.log(response);
-      localStorage.setItem('access_token', response.data.data.access_token);
-      localStorage.setItem('refresh_token', response.data.data.refresh_token);
-      console.log(response.data.data);
-      window.location.href = '/dashboard';
+      authLogin(signupData, setError, setLoading);
     })
     .catch((error) => {
       console.log(error);

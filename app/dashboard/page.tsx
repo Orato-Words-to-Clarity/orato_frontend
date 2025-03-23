@@ -23,7 +23,7 @@ function Dashboard() {
   const [recordingModalOpen, setRecordingModalOpen] = useState(false);
   const [audioUploadingModalOpen, setAudioUploadingModalOpen] = useState(false);
   const [audioData, setAudioData] = useState<AudioDataType[]>([]);
-  const [usingOwnApi, setUsingOwnApi] = useState(false);
+  const [usingOwnApi, setUsingOwnApi] = useState(true);
 
   const hadleRecordingModalClose = () => setRecordingModalOpen(false);
   const handleAudioUploadingModalClose = () => setAudioUploadingModalOpen(false);
