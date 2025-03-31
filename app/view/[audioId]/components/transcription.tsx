@@ -2,7 +2,6 @@ import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Edit2 } from 'lucide-react';
 import { HiOutlineRefresh } from 'react-icons/hi';
-
 import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import { transcribeAudio } from '@/api/audio';
 import { AudioDetailsType } from '../../types';
