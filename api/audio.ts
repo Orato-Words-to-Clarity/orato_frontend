@@ -59,6 +59,17 @@ export const getAudioDetails = async (
     });
 };
 
+export const delAudio = async (audioId: string) => {
+  return privateGateway
+    .delete(orato.deleteAudio(audioId)) // Use DELETE instead of GET
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      throw new Error(error.response?.data?.message || 'Failed to delete audio');
+    });
+};
+
 export const transcribeAudio = async (
   audioId: string,
   setFetch: Dispatch<SetStateAction<boolean>>,
