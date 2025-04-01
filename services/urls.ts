@@ -12,6 +12,7 @@ export const orato = {
   transciption: '/api/v1/transcription/transcribe/',
   editTranscription: '/api/v1/transcription/edit/',
   audioDetails: (audioId: string) => `/api/v1/audio/${audioId}/`,
+  deleteAudio: (audioId: string) => `/api/v1/audio/${audioId}/delete/`,
 
   // Interaction
   create: '/api/v1/interactions/create/',

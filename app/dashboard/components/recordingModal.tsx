@@ -8,6 +8,7 @@ import RingLoader from 'react-spinners/RingLoader';
 import BarLoader from 'react-spinners/BarLoader';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { uploadAudio } from '@/api/audio';
+import { BeatLoader } from 'react-spinners';
 
 const RecordingModal: React.FC<RecordingModalProps> = ({ isOpen, handleClose }) => {
   const [includeMicAudio, setIncludeMicAudio] = useState<boolean>(true);
@@ -22,6 +23,7 @@ const RecordingModal: React.FC<RecordingModalProps> = ({ isOpen, handleClose }) 
   const [recordingTime, setRecordingTime] = useState<number>(0);
 
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const startRecording = async () => {
     try {
@@ -142,14 +144,15 @@ const RecordingModal: React.FC<RecordingModalProps> = ({ isOpen, handleClose }) 
     stopTimer();
   };
 
-  const handleTranscription = () => {
+  const handleTranscription = async () => {
     if (audioBlob) {
+      setIsLoading(true);
       const formData = new FormData();
       formData.append('file', audioBlob);
       const recordingDateTime = new Date().toISOString().replace(/[:.]/g, '-');
       const filename = `recording_${recordingDateTime}.webm`;
       formData.append('file', audioBlob, filename);
-      uploadAudio(formData, handleCancel);
+      uploadAudio(formData, handleCancel, setIsLoading);
     }
   };
 
@@ -265,8 +268,12 @@ const RecordingModal: React.FC<RecordingModalProps> = ({ isOpen, handleClose }) 
               <audio controls src={audioURL} className='w-full'></audio>
             </div>
             <div className='flex justify-center space-x-2'>
-              <Button onClick={handleTranscription} className='bg-black hover:bg-gray-800 w-full'>
-                Transcribe
+              <Button
+                onClick={handleTranscription}
+                className='bg-black hover:bg-gray-800 w-full'
+                disabled={isLoading}
+              >
+                {isLoading ? <BeatLoader size={8} color='#ffffff' /> : 'Transcribe'}
               </Button>
               <Button
                 onClick={handleCancel}
