@@ -56,7 +56,9 @@ export const getAudioDetails = async (
 export const transcribeAudio = async (
   audioId: string,
   setFetch: Dispatch<SetStateAction<boolean>>,
+  setTranscribing: Dispatch<SetStateAction<boolean>>,
 ) => {
+  setTranscribing(true);
   privateGateway
     .post(orato.transciption, { audio_id: audioId })
     .then((response) => {
@@ -67,5 +69,19 @@ export const transcribeAudio = async (
     })
     .catch((error) => {
       console.log(error.response.message);
+    })
+    .finally(() => {
+      setTranscribing(false);
+    });
+};
+
+export const editTranscription = async (transcription_id: string, text: string) => {
+  privateGateway
+    .patch(orato.editTranscription, { transcription_id: transcription_id, text: text })
+    .then((response) => {
+      toast.success(response.data.message);
+    })
+    .catch((error) => {
+      toast.error(error.response.data.message);
     });
 };
