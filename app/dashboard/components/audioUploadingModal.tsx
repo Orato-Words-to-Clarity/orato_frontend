@@ -5,10 +5,12 @@ import { Upload } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useDropzone } from 'react-dropzone';
 import { uploadAudio } from '@/api/audio';
+import { BeatLoader } from 'react-spinners';
 
 const AudioUploadingModal: React.FC<RecordingModalProps> = ({ isOpen, handleClose }) => {
   const [file, setFile] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const uploadedFile = acceptedFiles[0];
@@ -72,7 +74,7 @@ const AudioUploadingModal: React.FC<RecordingModalProps> = ({ isOpen, handleClos
       //     console.log(error);
       //   });
 
-      uploadAudio(formData, handleClose);
+      uploadAudio(formData, setIsLoading);
     }
   };
 
@@ -107,10 +109,10 @@ const AudioUploadingModal: React.FC<RecordingModalProps> = ({ isOpen, handleClos
       <div>
         <Button
           onClick={handleTranscription}
-          disabled={!file}
-          className={`${file ? 'bg-black hover:bg-gray-800 text-white' : 'bg-gray-400'}`}
+          disabled={!file || isLoading}
+          className={`${file ? 'bg-black hover:bg-gray-800 text-white' : 'bg-gray-400'} flex items-center justify-center`}
         >
-          Transcribe
+          {isLoading ? <BeatLoader size={8} color='white' /> : 'Transcribe'}
         </Button>
         <Button variant='secondary' onClick={handleClose}>
           Cancel

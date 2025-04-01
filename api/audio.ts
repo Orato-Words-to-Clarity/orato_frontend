@@ -23,7 +23,7 @@ export const getAudioList = async (setAudioData: Dispatch<SetStateAction<AudioDa
 
 export const uploadAudio = async (
   formData: FormData,
-  handleClose: () => void,
+
   setLoading: Dispatch<SetStateAction<boolean>>,
 ) => {
   setLoading(true);
