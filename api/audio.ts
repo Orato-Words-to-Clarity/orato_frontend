@@ -74,6 +74,7 @@ export const transcribeAudio = async (
   audioId: string,
   setFetch: Dispatch<SetStateAction<boolean>>,
   setTranscribing: Dispatch<SetStateAction<boolean>>,
+  setError: Dispatch<SetStateAction<string>>,
 ) => {
   setTranscribing(true);
   privateGateway
@@ -85,8 +86,16 @@ export const transcribeAudio = async (
       }, 500);
     })
     .catch((error) => {
-      console.log(error.response.message);
-    })
+      console.error( error.response.data);
+      if (error.response?.data?.status_code === 429) {
+        
+        setError(error.response.data.data.usage_limit);
+      }
+
+    }
+         
+      
+    )
     .finally(() => {
       setTranscribing(false);
     });

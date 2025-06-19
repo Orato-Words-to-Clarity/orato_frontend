@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Edit2 } from 'lucide-react';
 import { HiOutlineRefresh } from 'react-icons/hi';
+import { FaExclamationTriangle } from 'react-icons/fa';
 
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { editTranscription, transcribeAudio } from '@/api/audio';
@@ -19,11 +20,12 @@ export const Transcription = ({
     audioDetails?.transcription?.text || '',
   );
   const [transcribing, setTranscribing] = useState(false);
+  const [error, setError] = useState<string>('');
 
   useEffect(() => {
     if (!audioDetails.transcription) {
       setTimeout(() => {
-        transcribeAudio(audioDetails.audio_id, setFetch, setTranscribing);
+        transcribeAudio(audioDetails.audio_id, setFetch, setTranscribing, setError);
       }, 1000);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -33,6 +35,8 @@ export const Transcription = ({
     setTranscriptionText(audioDetails?.transcription?.text || '');
   }, [audioDetails?.transcription?.text]);
 
+  
+
   const handleSaveClick = () => {
     setIsEditing(false);
     // Here you would typically send the updated transcriptionText to your backend
@@ -40,7 +44,7 @@ export const Transcription = ({
   };
 
   const handleReTranscribeClick = () => {
-    transcribeAudio(audioDetails.audio_id, setFetch, setTranscribing);
+    transcribeAudio(audioDetails.audio_id, setFetch, setTranscribing, setError );
   };
 
   const handleTextChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -61,6 +65,8 @@ export const Transcription = ({
           onChange={handleTextChange}
         />
       )}
+      
+      {error && <p className='text-red-500 flex gap-1 border border-red-400 rounded-md pl-2'><FaExclamationTriangle className='items-center mt-0.5' size={18}/> {error}</p>}
       <div className='mt-4 flex justify-end'>
         {isEditing ? (
           <Button variant='default' className='mr-2' onClick={handleSaveClick}>
